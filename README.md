@@ -173,12 +173,50 @@ BiomeによるCode Quality チェック項目：
 
 ## 🔄 CI/CD パイプライン
 
-.github/workflows/ci.yml で以下を実行：
+### ローカルチェック（Pre-commit フック）
 
-1. Biome チェック
-2. TypeScript コンパイル
-3. ユニットテスト
-4. ビルド検証
+Git commit 前に自動的に以下を実行：
+
+```bash
+npm run verify  # check + build + format:check
+```
+
+**Husky による自動実行**:
+- Commit 時に `.husky/pre-commit` が実行
+- チェック失敗時は commit がブロック
+- 事前エラー検出により CI/CD の成功率を向上
+
+### GitHub Actions - リモートチェック
+
+`.github/workflows/ci.yml` で以下を実行：
+
+1. **Lint & Build** (Node.js 18.x, 20.x マトリクス):
+   - Biome チェック
+   - TypeScript コンパイル
+   - ユニットテスト
+
+2. **Code Quality** (Node.js 20.x):
+   - フォーマット検証
+   - Lint チェック
+
+3. **Build Artifacts**:
+   - ビルド成果物をアップロード
+   - 5日間保持
+
+4. **PR へのレポート投稿**:
+   - チェック結果をコメント投稿
+   - 成功/失敗を自動判定
+   - ワークフロー詳細へのリンク付き
+
+### 利用可能なコマンド（拡張）
+
+```bash
+# チェック・ビルド・フォーマット検証をまとめて実行
+npm run verify
+
+# フォーマット検証のみ（修正なし）
+npm run format:check
+```
 
 ## 📝 ドキュメント
 
@@ -223,11 +261,26 @@ npm run build
 
 ## 💡 ベストプラクティス
 
-1. **Pre-commit チェック**: Commit 前に必ず npm run check
+1. **Pre-commit チェック**: Commit 前に必ず `npm run verify` を実行
+   - Husky フックで自動実行される
+   - ローカルでエラーを検出してリモート CI を減らす
+
 2. **Issue→PR**: 常に Issue 番号を PR·Commit に含める
+   - `Fixes #xx` 形式で Issue 自動クローズ
+
 3. **Branch Policy**: main ブランチへの直接 push 禁止
+   - 必ず feature ブランチから PR を作成
+
 4. **Squash Commits**: マージ時に commit をまとめる
+   - 履歴を簡潔に保つ
+
 5. **Update README**: 新機能は必ず README に記載
+   - 使用方法、パラメータ、戻り値を記載
+
+6. **CI エラー対応**: PR レポートを確認
+   - GitHub Actions のワークフロー詳細を確認
+   - ローカルで `npm run verify` で再現確認
+   - エラー内容に基づいて修正
 
 ## 📞 サポート
 
