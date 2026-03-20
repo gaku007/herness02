@@ -1,46 +1,74 @@
 /**
- * Harness Engineering - メインエントリーポイント
- * このプロジェクトの主要な機能を提供します
+ * 元気になるWebサイト - ボタンクリック処理
+ * ボタンをクリックすると「ファイト！」メッセージをDOMに表示します
  */
 
-export interface ProcessOptions {
-  verbose?: boolean;
-  timeout?: number;
+interface MessageOptions {
+  duration?: number;
 }
 
 /**
- * データを処理する主要な関数
- * @param inputData - 処理対象のデータ
- * @param options - 処理オプション
- * @returns 処理結果の文字列
+ * メッセージを表示する関数
+ * @param message - 表示するメッセージテキスト
+ * @param elementId - メッセージを表示する要素のID
+ * @param options - オプション設定（表示時間など）
  */
-export const processData = (
-  inputData: string,
-  options: ProcessOptions = {},
-): string => {
-  const { verbose = false } = options;
-
-  if (verbose) {
-    console.log('Processing input:', inputData);
+export const displayMessage = (
+  message: string,
+  elementId: string,
+  options: MessageOptions = {}
+): void => {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    console.warn(`Element with ID "${elementId}" not found`);
+    return;
   }
 
-  const result = `Harness Engineering - Processed: ${inputData}`;
-  return result;
+  element.textContent = message;
+  element.style.opacity = "1";
+
+  if (options.duration && options.duration > 0) {
+    setTimeout(() => {
+      element.style.opacity = "0";
+      element.style.transition = "opacity 0.5s ease-out";
+    }, options.duration);
+  }
 };
 
 /**
- * ユーティリティ関数：文字列を検証
- * @param text - 検証対象のテキスト
- * @returns 有効性（true: 有効, false: 無効）
+ * ボタンクリック時のイベントハンドラ
  */
-export const validateInput = (text: string): boolean => {
-  return text.length > 0 && text.length <= 1000;
+export const handleGenkiButtonClick = (): void => {
+  const messages = [
+    "ファイト！ 💪",
+    "頑張ろう！ 🔥",
+    "いけるよ！ ✨",
+    "あなたならできる！ ⭐",
+    "応援してます！ 🎉",
+  ];
+
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+  displayMessage(randomMessage, "message", { duration: 3000 });
 };
 
 /**
- * エクスポートの デフォルト オブジェクト
+ * DOMContentLoaded 時に初期化
  */
-export default {
-  processData,
-  validateInput,
+const initializeApp = (): void => {
+  const button = document.getElementById("genkiButton");
+
+  if (!button) {
+    console.error('Error: Button with ID "genkiButton" not found');
+    return;
+  }
+
+  button.addEventListener("click", handleGenkiButtonClick);
+  console.log("Element initialized successfully");
 };
+
+// ドキュメント読み込み完了時に初期化
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+  initializeApp();
+}
