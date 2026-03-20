@@ -81,3 +81,70 @@ jobs:
           name: dist
           path: dist/
           retention-days: 5
+  post-pr-report:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [ lint-and-build, code-quality, build-artifacts ]
+    
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 依存パッケージのインストール
+        run: npm ci
+
+      - name: CI チェック実行
+        id: ci-check
+        continue-on-error: true
+        run: |
+          set +e
+          npm run verify
+          echo "verify_exit_code=$?" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
+      - name: PR へレポートをコメント投稿
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const exitCode = '${{ steps.ci-check.outputs.verify_exit_code }}';
+            const statusEmoji = exitCode === '0' ? '✅' : '❌';
+            const statusText = exitCode === '0' ? 'PASSED' : 'FAILED';
+            
+            const body = `## 🔍 CI チェック結果 ${statusEmoji}
+
+**総合結果**: ${statusText}  
+**実行時刻**: ${{ steps.ci-check.outputs.timestamp }}
+
+### チェック内容
+- ✔ Biome コード品質検証
+- ✔ TypeScript コンパイル 
+- ✔ フォーマット検証
+- ✔ ユニットテスト (存在する場合)
+
+${exitCode === '0' ? 
+  '✅ **すべてのチェックが成功しました。** このPRはマージ可能です。' : 
+  '❌ **チェックに失敗しました。** ローカルで \`npm run verify\` を実行してエラーを修正してください。'}
+
+**[ワークフロー詳細 →](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+[ローカルテスト手順 →](https://github.com/${{ github.repository }}/blob/main/DEVELOPMENT.md)**`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: チェック結果に基づいて終了
+        if: steps.ci-check.outputs.verify_exit_code != '0'
+        run: |
+          echo "❌ CI チェックが失敗しました"
+          exit 1

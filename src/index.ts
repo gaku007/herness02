@@ -14,10 +14,7 @@ export interface ProcessOptions {
  * @param options - 処理オプション
  * @returns 処理結果の文字列
  */
-export const processData = (
-  inputData: string,
-  options: ProcessOptions = {},
-): string => {
+export const processData = (inputData: string, options: ProcessOptions = {}): string => {
   const { verbose = false } = options;
 
   if (verbose) {

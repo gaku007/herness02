@@ -8,20 +8,22 @@
     "build": "tsc",
     "lint": "biome check --apply .",
     "format": "biome format --write .",
+    "format:check": "biome format .",
     "check": "biome check .",
-    "dev": "tsc --watch",
-    "pre-commit": "npm run check && npm run build"
+    "dev": "tsc && live-server --port=5173 --entry-file=index.html",
+    "dev:watch": "tsc --watch",
+    "pre-commit": "npm run check && npm run build",
+    "verify": "npm run check && npm run build && npm run format:check",
+    "ci-report": "node --loader ts-node/esm scripts/generate-ci-report.ts"
   },
-  "keywords": [
-    "harness",
-    "engineering",
-    "typescript"
-  ],
+  "keywords": ["harness", "engineering", "typescript"],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
     "@types/node": "^20.0.0",
+    "husky": "^9.1.7",
+    "live-server": "^1.2.2",
     "typescript": "^5.3.0"
   }
 }

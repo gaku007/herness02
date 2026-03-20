@@ -14,29 +14,24 @@
   },
   "formatter": {
     "enabled": true,
-    "indentSize": 2,
+    "indentWidth": 2,
     "lineWidth": 100,
-    "indentStyle": "space",
-    "trailingCommas": "es5",
-    "quoteStyle": "single",
-    "semicolons": "always",
-    "arrowParentheses": "asNeeded"
+    "indentStyle": "space"
   },
   "javascript": {
     "formatter": {
-      "indentSize": 2,
-      "lineWidth": 100,
-      "indentStyle": "space",
-      "trailingCommas": "es5",
       "quoteStyle": "single",
+      "trailingCommas": "es5",
       "semicolons": "always",
       "arrowParentheses": "asNeeded"
     }
   },
-  "ignorePatterns": [
-    "node_modules",
-    "dist",
-    "build",
-    ".git"
-  ]
+  "json": {
+    "formatter": {
+      "indentWidth": 2
+    }
+  },
+  "files": {
+    "ignore": ["node_modules", "dist", "build", ".git"]
+  }
 }
