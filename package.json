@@ -13,11 +13,7 @@
     "dev:watch": "tsc --watch",
     "pre-commit": "npm run check && npm run build"
   },
-  "keywords": [
-    "harness",
-    "engineering",
-    "typescript"
-  ],
+  "keywords": ["harness", "engineering", "typescript"],
   "author": "",
   "license": "MIT",
   "devDependencies": {
