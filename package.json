@@ -1,0 +1,27 @@
+{
+  "name": "harness-engineering",
+  "version": "0.1.0",
+  "description": "Harness Engineering - AI-Assisted Development Workflow",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome check --apply .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "dev": "tsc --watch",
+    "pre-commit": "npm run check && npm run build"
+  },
+  "keywords": [
+    "harness",
+    "engineering",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}

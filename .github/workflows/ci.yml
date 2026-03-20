@@ -1,0 +1,83 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18.x, 20.x ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js セットアップ (${{ matrix.node-version }})
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 依存パッケージのインストール
+        run: npm ci
+
+      - name: Biome チェック（コード品質検証）
+        run: npm run check
+
+      - name: TypeScript コンパイル
+        run: npm run build
+
+      - name: ユニットテスト（オプション）
+        run: npm test --if-present || true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 依存パッケージのインストール
+        run: npm ci
+
+      - name: Biome フォーマット チェック
+        run: npm run format -- --check || (echo "フォーマットが必要です。npm run format を実行してください。" && exit 1)
+
+      - name: Biome lint チェック
+        run: npm run check
+
+  build-artifacts:
+    runs-on: ubuntu-latest
+    needs: [ lint-and-build, code-quality ]
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 依存パッケージのインストール
+        run: npm ci
+
+      - name: ビルド実行
+        run: npm run build
+
+      - name: ビルド成果物をアップロード
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 5

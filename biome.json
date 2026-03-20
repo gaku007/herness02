@@ -1,0 +1,42 @@
+{
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "noImplicitBoolean": "warn",
+        "useConst": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentSize": 2,
+    "lineWidth": 100,
+    "indentStyle": "space",
+    "trailingCommas": "es5",
+    "quoteStyle": "single",
+    "semicolons": "always",
+    "arrowParentheses": "asNeeded"
+  },
+  "javascript": {
+    "formatter": {
+      "indentSize": 2,
+      "lineWidth": 100,
+      "indentStyle": "space",
+      "trailingCommas": "es5",
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "arrowParentheses": "asNeeded"
+    }
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "build",
+    ".git"
+  ]
+}
