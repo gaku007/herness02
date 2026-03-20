@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>元気になるWebサイト</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        text-align: center;
+        background: white;
+        padding: 60px 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 32px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      p {
+        color: #666;
+        font-size: 18px;
+        margin-bottom: 40px;
+        line-height: 1.6;
+      }
+
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 16px 48px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      #message {
+        margin-top: 30px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #667eea;
+        min-height: 30px;
+        animation: slideIn 0.5s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .emoji {
+        display: inline-block;
+        font-size: 48px;
+        margin-top: 20px;
+        animation: bounce 0.6s ease-out;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+
+        100% {
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>元気になるWebサイト 💫</h1>
+      <p>ボタンを押して、元気をもらおう！</p>
+      <button id="genkiButton">ファイト！ボタン</button>
+      <div id="message"></div>
+    </div>
+
+    <script src="dist/index.js"></script>
+  </body>
+</html>

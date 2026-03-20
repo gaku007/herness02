@@ -237,6 +237,81 @@ npm run build
 2. GitHub Issues で Issue を作成
 3. GitHub Copilot に相談
 
+## 🎯 実装された機能
+
+### 元気になるWebサイト（Issue #1）
+
+ボタンを押すと「ファイト！」とメッセージが表示される、ユーザーを元気づけるシンプルなWebサイトです。
+
+#### 使用方法
+
+```bash
+# ビルドして、index.html をブラウザで開く
+npm run build
+open index.html
+```
+
+#### 機能
+
+- **ボタンクリック処理**: HTMLのボタンをクリックすると応援メッセージが表示されます
+- **ランダムメッセージ**: 複数の応援メッセージをランダムに表示
+- **アニメーション効果**: メッセージ表示時にアニメーション効果が付与されます
+- **シンプルなデザイン**: グラデーション背景とシンプルなUIで見やすくなっています
+
+#### ファイル構成
+
+| ファイル | 説明 |
+|---------|------|
+| `index.html` | Webサイトの HTML 構造・スタイル |
+| `src/index.ts` | ボタンクリック処理の TypeScript 実装 |
+| `dist/index.js` | コンパイルされた JavaScript ファイル |
+
+#### 実装詳細
+
+**HTML要素**:
+- ボタン ID: `genkiButton`
+- メッセージ表示用要素 ID: `message`
+
+**TypeScript 関数**:
+
+```typescript
+export const displayMessage = (
+  message: string,
+  elementId: string,
+  options?: { duration?: number }
+): void => {
+  // element にメッセージを表示し、指定時間後に消える
+};
+
+export const handleGenkiButtonClick = (): void => {
+  // ランダムに応援メッセージを選択して表示
+};
+```
+
+#### メッセージ一覧
+
+- ファイト！ 💪
+- 頑張ろう！ 🔥
+- いけるよ！ ✨
+- あなたならできる！ ⭐
+- 応援してます！ 🎉
+
+#### 技術スタック
+
+- **HTML5**: 構造とスタイル
+- **CSS3**: グラデーション・アニメーション
+- **TypeScript**: ボタンクリック処理・DOM操作
+- **Vanilla JavaScript**: フレームワーク不使用
+
+#### 不正なコードの防止
+
+このプロジェクトは biome で以下をチェックしています：
+
+- ✅ `npm run check`: コード品質・スタイル検証
+- ✅ `npm run build`: TypeScript コンパイル検証
+- ✅ シングルクォーテーション 使用
+- ✅ 1行最大100文字以内
+
 ## 📄 ライセンス
 
 MIT License
