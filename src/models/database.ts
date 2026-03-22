@@ -104,6 +104,24 @@ export const seedSampleData = (): void => {
       date: '2026-12-10',
       location: '神奈川県民ホール',
     },
+    {
+      name: '春の桜の下コンサート',
+      description: '春の新シーズンを彩るコンサート',
+      date: '2026-04-05',
+      location: '上野恩賜公園',
+    },
+    {
+      name: 'ハロウィンスペシャルイベント',
+      description: 'ハロウィンを盛り上げるスペシャルイベント',
+      date: '2026-10-31',
+      location: 'お台場青海',
+    },
+    {
+      name: '新年謝恩祭',
+      description: '新年のスタートを切る感謝祭',
+      date: '2027-01-15',
+      location: '東京ドーム',
+    },
   ];
 
   const insertEvent = db.prepare(
