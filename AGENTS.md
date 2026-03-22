@@ -13,7 +13,7 @@ Copilotに依頼
 ## ステップ1: Issue#xx の作成
 
 ### 手順
-1. GitHubで新規Issueを作成
+1. GitHubで新規Issueを作成。
 2. Issue Templateを使用して、以下項目を記載：
    - **Title**: 機能名（例: `feat: ユーザー認証機能の実装`）
    - **Description**: 詳細な説明、背景、受け入れ条件
@@ -96,7 +96,7 @@ git fetch origin
 git checkout main
 git pull origin main
 
-# 2. 新規ブランチ作成・移動
+# 2. 新規ブランチ作成・移動　xxには必ず関連するIssue番号を付与すること。
 git checkout -b issue/xx/feature-name
 
 # 3. 実装・検証・テスト作成
