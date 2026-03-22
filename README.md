@@ -290,6 +290,162 @@ npm run build
 2. GitHub Issues で Issue を作成
 3. GitHub Copilot に相談
 
+## �️ 元気４-EC: 地下アイドル向けECサイト
+
+### 機能説明
+
+地下アイドル向けECサイトの実装。イベントチケット販売とイベント別グッズ販売を行い、カート投入から購入完了まで実現します。
+
+### 技術スタック
+
+- **フロント**: HTML5、CSS3、TypeScript、Vanilla JavaScript
+- **バック**: Express（Node.js）、SQLite、UUID
+- **開発**: TypeScript、Biome
+
+### セットアップ手順
+
+```bash
+# 1. 依存パッケージのインストール
+npm install
+
+# 2. TypeScript コンパイル
+npm run build
+
+# 3. サーバー起動
+npm run dev
+# または
+npm start
+```
+
+### サーバー起動
+
+```bash
+npm run dev
+```
+
+サーバーは `http://localhost:3000` で起動します。
+
+### 主な機能
+
+- **イベント一覧表示**: 開催予定のイベント（3種類のサンプル）
+- **商品一覧**: イベント毎の商品（チケット + 20種類のグッズ）
+- **カート機能**: 商品追加、数量変更、削除
+- **購入者情報入力**: 氏名、メールアドレス、電話番号、住所、郵便番号
+- **注文確認**: 購入内容の確認
+- **購入完了**: 注文ID、注文日時、合計金額表示
+- **注文履歴**: メールアドレスで注文履歴検索
+- **在庫管理**: 在庫不足時は購入不可
+
+### API エンドポイント
+
+#### イベント
+- `GET /api/events` - イベント一覧取得
+- `GET /api/events/:id` - イベント詳細取得
+
+#### 商品
+- `GET /api/products` - 全商品取得
+- `GET /api/products?eventId=xxx` - イベント別商品取得
+- `GET /api/products/:id` - 商品詳細取得
+
+#### 注文
+- `POST /api/orders` - 注文作成
+- `GET /api/orders?email=xxx@example.com` - 注文履歴検索
+
+### データベース
+
+SQLite を使用。スキーマと初期データは `src/db/schema.sql` と `src/db/init.ts` で定義。
+
+- `events`: イベント情報
+- `products`: 商品情報（チケット・グッズ）
+- `orders`: 注文情報
+- `order_items`: 注文内容
+
+### ディレクトリ構造
+
+```
+src/
+  ├── client/
+  │   └── index.ts          # フロント実装
+  ├── server/
+  │   ├── index.ts          # サーバーエントリーポイント
+  │   └── app.ts            # Express アプリケーション
+  ├── db/
+  │   ├── init.ts           # DB 初期化
+  │   └── schema.sql        # DB スキーマ
+  └── types/
+      └── index.ts          # 型定義
+public/
+  ├── index.html            # HTML
+  └── styles.css            # CSS
+```
+
+### 使用方法
+
+1. **ブラウザでアクセス**: `http://localhost:3000`
+2. **イベント選択**: 開催予定のイベントをクリック
+3. **商品選択**: イベント内の商品（チケット・グッズ）を選択
+4. **カート操作**: 「カートに追加」でカートへ
+5. **購入手続き**: 
+   - 「購入手続きに進む」をクリック
+   - 購入者情報を入力
+   - 「購入を確定する」でオーダー確定
+6. **完了**: 注文IDと完了メッセージが表示
+7. **注文履歴**: メールアドレスで過去の注文を検索
+
+### パラメータ例
+
+```typescript
+// イベントの作成（内部使用）
+{
+  id: string;            // UUID
+  name: string;         // イベント名
+  date: string;         // 開催日（YYYY-MM-DD）
+  description: string;  // 説明
+  thumbnail: string;    // サムネイル URL
+}
+
+// 商品
+{
+  id: string;           // UUID
+  eventId: string;      // 関連イベントID
+  type: 'ticket' | 'goods';
+  name: string;         // 商品名
+  price: number;        // 価格
+  stock: number;        // 在庫数
+  category: string;     // カテゴリー
+}
+
+// 注文
+{
+  id: string;                    // 注文ID
+  buyerInfo: BuyerInfo;         // 購入者情報
+  items: CartItem[];            // 注文アイテム
+  totalAmount: number;          // 合計金額
+  createdAt: string;            // 作成日時
+  status: 'completed' | 'pending' | 'cancelled';
+}
+```
+
+### テスト
+
+```bash
+# ユニットテスト（今後実装予定）
+npm test
+
+# ビルド検証
+npm run build
+
+# 品質チェック
+npm run check
+```
+
+### 注意事項
+
+- ローカル PC で動作する MVP 開発
+- SQLite はインメモリではなくファイルベース
+- 同時アクセス数は限定的
+- 本番環境では PostgreSQL・MySQL への移行が必要
+
 ## 📄 ライセンス
 
 MIT License
@@ -297,6 +453,7 @@ MIT License
 ---
 
 **プロジェクト開始**: 2026-03-20
-**最終更新**: 2026-03-20
+**最終更新**: 2026-03-22
 **Biome Version**: ^1.9.0
 **TypeScript Version**: ^5.3.0
+

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang='ja'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>元気４-EC | 地下アイドル向けECサイト</title>
+    <link rel='stylesheet' href='/styles.css' />
+  </head>
+  <body>
+    <div id='app' class='app-container'>
+      <!-- ヘッダー -->
+      <header class='header'>
+        <div class='header-content'>
+          <h1 class='logo'>🎤 元気４-EC</h1>
+          <nav class='nav'>
+            <button class='nav-btn' id='events-nav-btn' data-page='events'>
+              イベント
+            </button>
+            <button class='nav-btn' id='cart-nav-btn' data-page='cart'>
+              🛒 カート <span class='cart-count' id='cart-count'>0</span>
+            </button>
+            <button class='nav-btn' id='orders-nav-btn' data-page='orders'>
+              注文履歴
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <!-- メインコンテンツエリア -->
+      <main class='main-content'>
+        <!-- ページ: イベント一覧 -->
+        <div id='events-page' class='page active'>
+          <div class='page-header'>
+            <h2>開催予定のイベント</h2>
+          </div>
+          <div class='events-grid' id='events-container'>
+            <!-- JavaScriptで動的に生成 -->
+          </div>
+        </div>
+
+        <!-- ページ: 商品一覧 -->
+        <div id='products-page' class='page'>
+          <div class='page-header'>
+            <h2 id='products-title'>商品一覧</h2>
+            <button class='btn btn-secondary' id='back-to-events-btn'>
+              ← イベント一覧に戻る
+            </button>
+          </div>
+          <div class='filters'>
+            <select id='product-type-filter' class='filter-select'>
+              <option value=''>全て</option>
+              <option value='ticket'>チケット</option>
+              <option value='goods'>グッズ</option>
+            </select>
+            <select id='product-category-filter' class='filter-select'>
+              <option value=''>カテゴリー全て</option>
+            </select>
+          </div>
+          <div class='products-grid' id='products-container'>
+            <!-- JavaScriptで動的に生成 -->
+          </div>
+        </div>
+
+        <!-- ページ: カート -->
+        <div id='cart-page' class='page'>
+          <div class='page-header'>
+            <h2>ショッピングカート</h2>
+          </div>
+          <div id='cart-content' class='cart-content'>
+            <div class='cart-items-container'>
+              <table class='cart-table'>
+                <thead>
+                  <tr>
+                    <th>商品名</th>
+                    <th>単価</th>
+                    <th>数量</th>
+                    <th>小計</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id='cart-items-tbody'>
+                  <!-- JavaScriptで動的に生成 -->
+                </tbody>
+              </table>
+            </div>
+            <div class='cart-summary'>
+              <div class='summary-row'>
+                <span class='summary-label'>合計</span>
+                <span class='summary-value' id='cart-total'>¥0</span>
+              </div>
+              <button class='btn btn-primary btn-lg' id='proceed-to-checkout-btn'>
+                購入手続きに進む
+              </button>
+              <button class='btn btn-secondary' id='continue-shopping-btn'>
+                ショッピングを続ける
+              </button>
+            </div>
+          </div>
+          <div id='empty-cart-message' class='empty-message' style='display: none'>
+            <p>カートは空です</p>
+            <button class='btn btn-secondary' id='go-to-events-btn'>
+              イベント一覧へ
+            </button>
+          </div>
+        </div>
+
+        <!-- ページ: 注文確認 -->
+        <div id='checkout-page' class='page'>
+          <div class='page-header'>
+            <h2>購入者情報入力</h2>
+          </div>
+          <div class='checkout-container'>
+            <div class='checkout-section'>
+              <h3>配送先情報</h3>
+              <form id='buyer-form' class='form'>
+                <div class='form-group'>
+                  <label for='buyer-name'>氏名</label>
+                  <input
+                    type='text'
+                    id='buyer-name'
+                    name='name'
+                    placeholder='山田 太郎'
+                    required
+                  />
+                </div>
+                <div class='form-group'>
+                  <label for='buyer-email'>メールアドレス</label>
+                  <input
+                    type='email'
+                    id='buyer-email'
+                    name='email'
+                    placeholder='yamada@example.com'
+                    required
+                  />
+                </div>
+                <div class='form-group'>
+                  <label for='buyer-phone'>電話番号</label>
+                  <input
+                    type='tel'
+                    id='buyer-phone'
+                    name='phoneNumber'
+                    placeholder='09012345678'
+                    required
+                  />
+                </div>
+                <div class='form-group'>
+                  <label for='buyer-postal-code'>郵便番号</label>
+                  <input
+                    type='text'
+                    id='buyer-postal-code'
+                    name='postalCode'
+                    placeholder='100-0001'
+                    required
+                  />
+                </div>
+                <div class='form-group'>
+                  <label for='buyer-address'>住所</label>
+                  <input
+                    type='text'
+                    id='buyer-address'
+                    name='address'
+                    placeholder='東京都千代田区千代田1-1'
+                    required
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div class='checkout-section'>
+              <h3>注文内容の確認</h3>
+              <table class='checkout-table'>
+                <thead>
+                  <tr>
+                    <th>商品名</th>
+                    <th>単価</th>
+                    <th>数量</th>
+                    <th>小計</th>
+                  </tr>
+                </thead>
+                <tbody id='checkout-items-tbody'>
+                  <!-- JavaScriptで動的に生成 -->
+                </tbody>
+              </table>
+              <div class='checkout-summary'>
+                <div class='summary-row total'>
+                  <span class='summary-label'>見積金額</span>
+                  <span class='summary-value' id='checkout-total'>¥0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class='checkout-actions'>
+              <button class='btn btn-primary btn-lg' id='place-order-btn'>
+                購入を確定する
+              </button>
+              <button class='btn btn-secondary' id='back-to-cart-btn'>
+                カートに戻る
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ページ: 購入完了 -->
+        <div id='order-complete-page' class='page'>
+          <div class='completion-container'>
+            <div class='completion-icon'>✓</div>
+            <h2>ご注文ありがとうございました！</h2>
+            <p>ご注文が正常に完了しました。</p>
+            <div class='order-details'>
+              <p><strong>注文ID:</strong> <span id='order-id-display'></span></p>
+              <p><strong>注文日時:</strong> <span id='order-date-display'></span></p>
+              <p><strong>ご注文合計:</strong> <span id='order-total-display' class='price'>¥0</span></p>
+            </div>
+            <div class='completion-message'>
+              <p>
+                確認メールをお送りしますので、ご確認ください。
+              </p>
+            </div>
+            <button class='btn btn-primary' id='view-order-history-btn'>
+              注文履歴を確認
+            </button>
+            <button class='btn btn-secondary' id='continue-shopping-btn-2'>
+              ショッピングを続ける
+            </button>
+          </div>
+        </div>
+
+        <!-- ページ: 注文履歴 -->
+        <div id='orders-page' class='page'>
+          <div class='page-header'>
+            <h2>注文履歴</h2>
+          </div>
+          <div class='orders-search'>
+            <input
+              type='email'
+              id='order-search-email'
+              placeholder='メールアドレスを入力して検索'
+              class='search-input'
+            />
+            <button class='btn btn-secondary' id='search-orders-btn'>
+              検索
+            </button>
+          </div>
+          <div id='orders-container' class='orders-container'>
+            <!-- JavaScriptで動的に生成 -->
+          </div>
+        </div>
+      </main>
+
+      <!-- フッター -->
+      <footer class='footer'>
+        <p>&copy; 2026 元気４-EC. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <!-- JavaScriptモジュール -->
+    <script type='module' src='/client.js'></script>
+  </body>
+</html>
