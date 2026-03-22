@@ -10,9 +10,9 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "check": "biome check .",
-    "dev": "tsc && node dist/server/index.js",
+    "dev": "tsc && cp src/db/schema.sql dist/db/ && node dist/server/index.js",
     "dev:watch": "tsc --watch",
-    "start": "node dist/server/index.js",
+    "start": "cp src/db/schema.sql dist/db/ && node dist/server/index.js",
     "pre-commit": "npm run check && npm run build",
     "verify": "npm run check && npm run build && npm run format:check",
     "ci-report": "node --loader ts-node/esm scripts/generate-ci-report.ts"
