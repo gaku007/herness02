@@ -297,6 +297,96 @@ MIT License
 ---
 
 **プロジェクト開始**: 2026-03-20
-**最終更新**: 2026-03-20
+**最終更新**: 2026-03-22
 **Biome Version**: ^1.9.0
 **TypeScript Version**: ^5.3.0
+
+## 🛍️ EC Site - 地下アイドルグッズ販売（Issue #6）
+
+### 機能説明
+
+地下アイドル向けECサイトの実装です。イベントチケット販売とイベント別グッズ販売を行い、カート投入から購入完了まで実現します。
+
+### 使用方法
+
+#### 開発環境での実行
+
+```bash
+# 依存パッケージのインストール
+npm install
+
+# TypeScript コンパイル（ウォッチモード）
+npm run dev:watch
+
+# 別ターミナルでサーバー起動
+npm run build
+node dist/index.js
+```
+
+ブラウザで `http://localhost:5000` にアクセスしてください。
+
+#### API エンドポイント
+
+**イベント関連**
+| エンドポイント | メソッド | 説明 |
+|------|---|----|
+| `/api/events` | GET | すべてのイベント取得 |
+| `/api/events/:id` | GET | イベントID でイベント取得 |
+
+**商品関連**
+| エンドポイント | メソッド | 説明 |
+|------|---|----|
+| `/api/products` | GET | すべての商品取得 |
+| `/api/products/event/:eventId` | GET | イベント別に商品取得 |
+| `/api/product/:id` | GET | 商品ID で商品取得 |
+
+**注文関連**
+| エンドポイント | メソッド | 説明 |
+|------|---|----|
+| `/api/orders` | GET | すべての注文取得 |
+| `/api/orders/:id` | GET | 注文ID で注文を取得（アイテム含む）|
+| `/api/orders` | POST | 新規注文を作成 |
+
+#### 注文作成API の使用例
+
+```bash
+curl -X POST http://localhost:5000/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerName": "田中太郎",
+    "customerEmail": "tanaka@example.com",
+    "customerPhone": "09012345678",
+    "items": [
+      {"productId": 1, "quantity": 2},
+      {"productId": 3, "quantity": 1}
+    ]
+  }'
+```
+
+### 主な機能
+
+- ✅ 3種類のイベント サンプルが存在
+- ✅ イベント毎に 20種類のグッズ サンプルが存在
+- ✅ イベント一覧表示
+- ✅ 商品詳細表示
+- ✅ カートに商品を追加できる
+- ✅ カート内で数量変更・削除ができる
+- ✅ 購入者情報を入力できる（名前、メール、電話番号）
+- ✅ 購入確定により注文が SQLite へ保存される
+- ✅ 在庫不足時は購入できない（チェック機能付き）
+- ✅ 購入完了画面が表示される
+- ✅ 注文履歴を確認できる
+- ✅ シンプルで見やすいUI デザイン
+
+### 技術スタック
+
+- **フロントエンド**: HTML5, CSS3, TypeScript
+- **バックエンド**: Node.js, Express
+- **データベース**: SQLite
+- **ライブラリ**: better-sqlite3
+
+### 注意事項
+
+- カート情報はブラウザの localStorage に保存されます
+- サーバー再起動時にサンプルデータが再投入されます
+- 本番環境使用時は、パスワード認証やHTTPS対応が必須です

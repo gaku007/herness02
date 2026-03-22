@@ -1,43 +1,52 @@
 /**
- * Harness Engineering - メインエントリーポイント
- * このプロジェクトの主要な機能を提供します
+ * EC Site - メインサーバー
+ * Express サーバーと SQLite データベースを初期化
  */
 
-export interface ProcessOptions {
-  verbose?: boolean;
-  timeout?: number;
-}
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import express from 'express';
+import { initializeDatabase, seedSampleData } from './models/database.js';
+import { createApiRouter } from './routes/api.js';
+
+// __dirname の代替（ES Module 使用）
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = 5000;
+
+// ミドルウェア
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '..')));
+
+// API ルート
+app.use('/api', createApiRouter());
+
+// ルートパス
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 /**
- * データを処理する主要な関数
- * @param inputData - 処理対象のデータ
- * @param options - 処理オプション
- * @returns 処理結果の文字列
+ * サーバーを起動
  */
-export const processData = (inputData: string, options: ProcessOptions = {}): string => {
-  const { verbose = false } = options;
+const startServer = (): void => {
+  try {
+    // データベースを初期化
+    initializeDatabase();
+    seedSampleData();
 
-  if (verbose) {
-    console.log('Processing input:', inputData);
+    app.listen(PORT, () => {
+      console.log(`EC Site server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
   }
-
-  const result = `Harness Engineering - Processed: ${inputData}`;
-  return result;
 };
 
-/**
- * ユーティリティ関数：文字列を検証
- * @param text - 検証対象のテキスト
- * @returns 有効性（true: 有効, false: 無効）
- */
-export const validateInput = (text: string): boolean => {
-  return text.length > 0 && text.length <= 1000;
-};
+// サーバー起動
+startServer();
 
-/**
- * エクスポートの デフォルト オブジェクト
- */
-export default {
-  processData,
-  validateInput,
-};
+export default app;
