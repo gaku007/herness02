@@ -171,7 +171,7 @@ biome.json で以下を設定済み：
 
 2. **テストコード生成と実施**
    ```bash
-   # Jest によるユニットテスト実行
+   # Vitest によるユニットテスト実行
    npm test
    
    # ウォッチモード（ファイル変更時に自動実行）
@@ -179,6 +179,9 @@ biome.json で以下を設定済み：
    
    # カバレッジ測定
    npm test -- --coverage
+   
+   # UI モード（ブラウザで結果表示）
+   npm test -- --ui
    ```
 
 3. **修正と改善**
@@ -211,8 +214,17 @@ biome.json で以下を設定済み：
 #### テスト実行コマンド参考
 
 ```bash
-# ユニットテスト実行
+# Vitest によるユニットテスト実行
 npm test
+
+# ウォッチモード（ファイル変更時に自動実行）
+npm test -- --watch
+
+# UI モード（ブラウザで結果表示）
+npm test -- --ui
+
+# カバレッジ測定
+npm test -- --coverage
 
 # 結合テスト実行
 npm run test:integration
@@ -223,7 +235,7 @@ npm run test:e2e
 # 全テスト実行
 npm run test:all
 
-# ウォッチモード
+# 開発サーバー起動
 npm run dev
 ```
 
