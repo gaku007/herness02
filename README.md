@@ -43,7 +43,7 @@ npm run build
 
 1. **Issue 作成**: `.github/ISSUE_TEMPLATE/feature.md` を使用
 2. **Copilot に依頼**: Issue 番号を指定して機能実装を依頼
-3. **ブランチ作成**: `issue/xx/feature-name` 形式
+3. **ブランチ作成**: `issue/xx/feature-name` 形式 ※xxは必ずIssueの番号に固定する
 4. **実装・検証**: Biome チェックを通す
 5. **README 更新**: 新機能を記載
 6. **PR 作成**: `.github/pull_request_template.md` を使用
